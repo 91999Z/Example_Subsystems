@@ -1,0 +1,44 @@
+plugins {
+    id 'edu.wpi.first.GradleRIO' version '2026.2.1'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+def ROBOT_MAIN_CLASS = 'frc.robot.Main'
+
+// Change team number before deploying. Building and simulation do not require hardware.
+deploy {
+    targets {
+        roborio(getTargetTypeClass('RoboRIO')) {
+            team = 0
+            debug = false
+            artifacts {
+                frcJava(getArtifactTypeClass('FRCJavaArtifact')) {}
+            }
+        }
+    }
+}
+
+// WPILib is the only dependency. Hardware/vendor libraries are intentionally omitted.
+dependencies {
+    implementation wpi.java.deps.wpilib()
+    roborioDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.roborio)
+    roborioRelease wpi.java.deps.wpilibJniRelease(wpi.platforms.roborio)
+    nativeDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.desktop)
+    nativeRelease wpi.java.deps.wpilibJniRelease(wpi.platforms.desktop)
+    simulationDebug wpi.sim.enableDebug()
+    simulationRelease wpi.sim.enableRelease()
+}
+
+// Configure standard WPILib executable, simulation, and test tasks.
+wpi.java.configureExecutableTasks(jar)
+wpi.java.configureTestTasks(test)
+
+jar {
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+}
