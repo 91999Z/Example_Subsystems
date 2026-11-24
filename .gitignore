@@ -1,0 +1,9 @@
+# WPILib / FRC generated files
+.gradle/
+build/
+*/build/
+.vscode/
+.idea/
+*.iml
+.wpilib/
+.vscode-test/

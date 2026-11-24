@@ -1,0 +1,9 @@
+pluginManagement {
+    repositories {
+        maven { url = 'https://frcmaven.wpi.edu/artifactory/release/' }
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+rootProject.name = 'SubsystemSkeleton'
