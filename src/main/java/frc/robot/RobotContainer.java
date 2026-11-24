@@ -1,21 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.FeederSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.subsystems.PneumaticsSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.TankDriveSubsystem;
-import frc.robot.subsystems.TurretSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
-import frc.robot.subsystems.WristSubsystem;
+import frc.robot.subsystems.*;
 
 /**
  * Composition root for robot subsystems, operator interfaces, and future command bindings.
@@ -41,31 +27,48 @@ public class RobotContainer {
   private final PneumaticsSubsystem pneumaticsSubsystem = new PneumaticsSubsystem();
   private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 
-  // Operator interface placeholder. This object does not access hardware until bindings are added.
+  // Requested cross-cutting subsystem additions.
+  private final LocalizationSubsystem localizationSubsystem = new LocalizationSubsystem();
+  private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
+  private final PowerSubsystem powerSubsystem = new PowerSubsystem();
+  private final TelemetrySubsystem telemetrySubsystem = new TelemetrySubsystem();
+  private final DiagnosticsSubsystem diagnosticsSubsystem = new DiagnosticsSubsystem();
+  private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
+  private final PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem();
+  private final GamePieceDetectionSubsystem gamePieceDetectionSubsystem =
+      new GamePieceDetectionSubsystem();
+  private final ManipulatorSubsystem manipulatorSubsystem = new ManipulatorSubsystem();
+  private final SwerveModuleSubsystem swerveModuleSubsystem = new SwerveModuleSubsystem();
+
+  // Operator interface placeholder.
   private final CommandXboxController driverController =
       new CommandXboxController(Constants.OperatorConstants.DRIVER_CONTROLLER_PORT);
-  // Optional second controller example:
-  // private final CommandXboxController operatorController = new CommandXboxController(1);
+  // Optional second controller: // private final CommandXboxController operatorController =
+  //     new CommandXboxController(Constants.OperatorConstants.OPERATOR_CONTROLLER_PORT);
 
-  /** Creates the robot's subsystem and operator-interface placeholders. */
+  /** Creates subsystem placeholders and future command bindings. */
   public RobotContainer() {
     configureBindings();
+
+    // Default commands location:
+    // TODO: Set default commands here, commonly after creating a drive or mechanism command.
+    // Example: drivetrainSubsystem.setDefaultCommand(new ExampleDriveCommand(drivetrainSubsystem));
+
+    // Autonomous integration location:
+    // TODO: Add autonomous chooser integration here; keep routines out of subsystem constructors.
   }
 
   /**
-   * Add button-to-command bindings here when commands are introduced.
+   * Controller bindings location.
    *
-   * <p>For example, bind a controller trigger to a command that requires the selected subsystem.
-   * Keep bindings out of subsystem constructors.
+   * <p>Use onTrue, whileTrue, toggleOnTrue, and other trigger bindings here once commands exist.
+   * Keep real hardware setup in the subsystems and composition only in this container.
    */
   private void configureBindings() {
-    // TODO: Add controller bindings here after selecting the robot's active subsystems.
+    // TODO: Add controller bindings here after selecting the active subsystems.
     // Example: driverController.a().onTrue(new ExampleCommand(exampleSubsystem));
-    // TODO: Remove this reference if the driver controller placeholder is not needed.
-    driverController.getHID();
 
-    // References keep all template subsystem instances explicit in this composition root.
-    // Remove these statements together with any unused subsystem fields above.
+    // References keep template instances explicit. Remove these statements for unused subsystems.
     drivetrainSubsystem.getClass();
     swerveSubsystem.getClass();
     tankDriveSubsystem.getClass();
@@ -81,5 +84,15 @@ public class RobotContainer {
     ledSubsystem.getClass();
     pneumaticsSubsystem.getClass();
     exampleSubsystem.getClass();
+    localizationSubsystem.getClass();
+    gyroSubsystem.getClass();
+    powerSubsystem.getClass();
+    telemetrySubsystem.getClass();
+    diagnosticsSubsystem.getClass();
+    limelightSubsystem.getClass();
+    photonVisionSubsystem.getClass();
+    gamePieceDetectionSubsystem.getClass();
+    manipulatorSubsystem.getClass();
+    swerveModuleSubsystem.getClass();
   }
 }
